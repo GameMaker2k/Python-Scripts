@@ -48,25 +48,28 @@ if(int(fontbottomsplit[2])>1) or (int(fontbottomsplit[2])<0):
    fontbottomsplit[2] = 0;
 if(int(fontbottomsplit[3])>1) or (int(fontbottomsplit[3])<0):
    fontbottomsplit[3] = 0;
-pycolorload=configload[2].rstrip('\n');
+bgcpresplit=configload[2].rstrip('\n');
+bgcsplit=bgcpresplit.split(',');
+pycolorload=configload[3].rstrip('\n');
 pycolors=pycolorload.split('|');
-bgcsplit=pycolors[0].split(',');
-tfncsplit=pycolors[1].split(',');
-bfncsplit=pycolors[2].split(',');
-fontxyload=configload[3].rstrip('\n');
+tfncsplit=pycolors[0].split(',');
+bfncsplit=pycolors[1].split(',');
+fontxyload=configload[4].rstrip('\n');
 bothfontxy=fontxyload.split('|');
 topfontxy=bothfontxy[0].rstrip('\n');
 tfxysplit=topfontxy.split(',');
 bottomfontxy=bothfontxy[1].rstrip('\n');
 bfxysplit=bottomfontxy.split(',');
-datetimeload=configload[4].rstrip('\n');
+datetimeload=configload[5].rstrip('\n');
 datetimeformat=datetimeload.split('|');
 dateformat=datetimeformat[0];
 timeformat=datetimeformat[1];
-displayconf=configload[5].rstrip('\n');
-displaysize=configload[6].rstrip('\n');
+displayconf=configload[6].rstrip('\n');
+displaysize=configload[7].rstrip('\n');
 displaysizesplit=displaysize.split('x');
-pysoundfiles=configload[7].rstrip('\n');
+pysoundfiles=configload[8].rstrip('\n');
+pysoundconf=configload[9].rstrip('\n');
+pysndconfsplit=pysoundconf.split(',');
 
 environ['SDL_VIDEODRIVER'] = 'x11';
 pygame.display.init();
@@ -78,7 +81,7 @@ countnum=0;
 if(numfiles > 0):
    maxarraynum = numfiles - 1;
    print('number of sound files %i' % numfiles);
-   pygame.mixer.init();
+   pygame.mixer.init(int(pysndconfsplit[0]),int(pysndconfsplit[1]),int(pysndconfsplit[2]),int(pysndconfsplit[3]));
    print('init pygame sound');
 
 pyscreen=pygame.display.set_mode((int(displaysizesplit[0]),int(displaysizesplit[1])),FULLSCREEN);
@@ -132,8 +135,8 @@ while not done:
       if(pygame.mixer.get_busy()==0):
          pysound=pygame.mixer.Sound(globfiles[int(countnum)]);
          print('loading sound file "'+globfiles[int(countnum)]+'"');
-         pysound.set_volume(1.0);
-         print('setting sound volume');
+         pysound.set_volume(float(pysndconfsplit[4]));
+         print('setting sound volume %f' % float(pysndconfsplit[4]));
          pychannel=pysound.play(1);
          print('playing sound file "'+globfiles[int(countnum)]+'"');
          if(countnum < maxarraynum):
