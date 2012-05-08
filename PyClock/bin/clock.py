@@ -1,9 +1,10 @@
 #!/usr/bin/python2
 
-import os, sys, time, locale, calendar, pygame;
+import os, sys, time, locale, calendar, pygame, glob;
 from os import environ, system;
 from sys import version, exit;
 from time import gmtime, strftime;
+from glob import glob;
 from pygame import init, quit;
 from pygame.locals import *;
 import shutil;
@@ -65,22 +66,20 @@ timeformat=datetimeformat[1];
 displayconf=configload[5].rstrip('\n');
 displaysize=configload[6].rstrip('\n');
 displaysizesplit=displaysize.split('x');
-pysoundfile=configload[7].rstrip('\n');
+pysoundfiles=configload[7].rstrip('\n');
 
 environ['SDL_VIDEODRIVER'] = 'x11';
 pygame.display.init();
 print('init pygame x11 display');
 
-if(pysoundfile!="none"):
-	if(os.path.exists(pysoundfile) == True):
-		pygame.mixer.init();
-		print('init pygame sound');
-		pysound=pygame.mixer.Sound(pysoundfile);
-		print('loading sound file "'+pysoundfile+'"');
-		pysound.set_volume(1.0);
-		print('setting sound volume');
-		pychannel=pysound.play(-1);
-		print('playing sound file "'+pysoundfile+'"');
+globfiles=glob(pysoundfiles);
+numfiles=len(globfiles);
+countnum=0;
+if(numfiles > 0):
+   maxarraynum = numfiles - 1;
+   print('number of sound files %i' % numfiles);
+   pygame.mixer.init();
+   print('init pygame sound');
 
 pyscreen=pygame.display.set_mode((int(displaysizesplit[0]),int(displaysizesplit[1])),FULLSCREEN);
 print('setting display mode "'+displaysizesplit[0]+'x'+displaysizesplit[1]+'"');
@@ -129,19 +128,31 @@ while not done:
       rects = group.draw(pyscreen);
       pygame.display.update(rects);
    pygame.display.update();
+   if(numfiles > 0):
+      if(pygame.mixer.get_busy()==0):
+         pysound=pygame.mixer.Sound(globfiles[int(countnum)]);
+         print('loading sound file "'+globfiles[int(countnum)]+'"');
+         pysound.set_volume(1.0);
+         print('setting sound volume');
+         pychannel=pysound.play(1);
+         print('playing sound file "'+globfiles[int(countnum)]+'"');
+         if(countnum < maxarraynum):
+            countnum = countnum + 1;
+         if(countnum == maxarraynum):
+            countnum = 0;
+
    for event in pygame.event.get():
       if (event.type == KEYUP) or (event.type == KEYDOWN):
          if (event.key == K_ESCAPE):
             done = True;
 
-if(pysoundfile!="none"):
-	if(os.path.exists(pysoundfile) == True):
-		pysound.stop();
-		print('stoping sound file "'+pysoundfile+'"');
-		pygame.mixer.stop();
-		print('setting sound mixer');
-		pygame.mixer.quit();
-		print('uninit pygame sound');
+if(numfiles > 0):
+      pysound.stop();
+      print('stoping sound file "'+pysoundfile+'"');
+      pygame.mixer.stop();
+      print('setting sound mixer');
+      pygame.mixer.quit();
+      print('uninit pygame sound');
 
 pygame.font.quit();
 print('uninit pygame font');
