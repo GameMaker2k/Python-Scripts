@@ -138,7 +138,7 @@ while not done:
          print('playing sound file "'+globfiles[int(countnum)]+'"');
          if(countnum < maxarraynum):
             countnum = countnum + 1;
-         if(countnum == maxarraynum):
+         if(countnum > maxarraynum):
             countnum = 0;
 
    for event in pygame.event.get():
@@ -148,7 +148,7 @@ while not done:
 
 if(numfiles > 0):
       pysound.stop();
-      print('stoping sound file "'+pysoundfile+'"');
+      print('stoping sound file "'+globfiles[int(countnum)]+'"');
       pygame.mixer.stop();
       print('setting sound mixer');
       pygame.mixer.quit();
