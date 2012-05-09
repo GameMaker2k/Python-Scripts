@@ -104,6 +104,9 @@ while not done:
    while (fcount0 < len(imgbgsplit)):
       if (os.path.exists(imgbgsplit[int(fcount0)]) == True):
          pybgimgall={};
+         if(fcountall == 0):
+            print('loading background image "'+imgbgsplit[int(fcount0)]+'"');
+            print('setting background image "'+imgbgsplit[int(fcount0)]+'"');
          pybgimgall[int(fcount0)]=pygame.image.load(imgbgsplit[int(fcount0)]);
          pybgimgxyall=imgbgxysplit[int(fcount0)].split(',');
          pyscreen.blit(pybgimgall[int(fcount0)],(int(pybgimgxyall[0]),int(pybgimgxyall[1])));
