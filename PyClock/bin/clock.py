@@ -13,6 +13,7 @@ pythonver=version;
 print('python version "'+pythonver+'"');
 init();
 print('init pygame');
+fpsclock=pygame.time.Clock();
 pygamever=pygame.version.ver;
 print('pygame version '+pygamever);
 print('sdl version %s.%s.%s' % pygame.get_sdl_version());
@@ -28,48 +29,25 @@ if(os.path.exists('./config.txt') == False):
 pyconfig=open('./config.txt', 'r');
 print('loading config file "./config.txt"');
 configload=pyconfig.readlines();
-fontload=configload[0].rstrip('\n');
-fontloadsplit=fontload.split('|');
-fonttopload=fontloadsplit[0];
-fontbottomload=fontloadsplit[1];
-fontsizeload=configload[1].rstrip('\n');
-fontloadboth=fontsizeload.split('|');
-fonttopsplit=fontloadboth[0].split(',');
-if(int(fonttopsplit[1])>1) or (int(fonttopsplit[1])<0):
-   fonttopsplit[1] = 0;
-if(int(fonttopsplit[2])>1) or (int(fonttopsplit[2])<0):
-   fonttopsplit[2] = 0;
-if(int(fonttopsplit[3])>1) or (int(fonttopsplit[3])<0):
-   fonttopsplit[3] = 0;
-fontbottomsplit=fontloadboth[1].split(',');
-if(int(fontbottomsplit[1])>1) or (int(fontbottomsplit[1])<0):
-   fontbottomsplit[1] = 0;
-if(int(fontbottomsplit[2])>1) or (int(fontbottomsplit[2])<0):
-   fontbottomsplit[2] = 0;
-if(int(fontbottomsplit[3])>1) or (int(fontbottomsplit[3])<0):
-   fontbottomsplit[3] = 0;
 bgcpresplit=configload[2].rstrip('\n');
 bgcsplit=bgcpresplit.split(',');
-pycolorload=configload[3].rstrip('\n');
-pycolors=pycolorload.split('|');
-tfncsplit=pycolors[0].split(',');
-bfncsplit=pycolors[1].split(',');
-fontxyload=configload[4].rstrip('\n');
-bothfontxy=fontxyload.split('|');
-topfontxy=bothfontxy[0].rstrip('\n');
-tfxysplit=topfontxy.split(',');
-bottomfontxy=bothfontxy[1].rstrip('\n');
-bfxysplit=bottomfontxy.split(',');
-datetimeload=configload[5].rstrip('\n');
-datetimeformat=datetimeload.split('|');
-dateformat=datetimeformat[0];
-timeformat=datetimeformat[1];
-displayconf=configload[6].rstrip('\n');
-displaysize=configload[7].rstrip('\n');
+displaysize=configload[6].rstrip('\n');
 displaysizesplit=displaysize.split('x');
-pysoundfiles=configload[8].rstrip('\n');
-pysoundconf=configload[9].rstrip('\n');
+pysoundfiles=configload[7].rstrip('\n');
+pysoundconf=configload[8].rstrip('\n');
 pysndconfsplit=pysoundconf.split(',');
+
+fontload=configload[0].rstrip('\n');
+fontloadsplit=fontload.split('|');
+fontsizeload=configload[1].rstrip('\n');
+fontsizesplit=fontsizeload.split('|');
+pycolorload=configload[3].rstrip('\n');
+pycolorsplit=pycolorload.split('|');
+fontxyload=configload[4].rstrip('\n');
+fontxysplit=fontxyload.split('|');
+datetimeload=configload[5].rstrip('\n');
+datetimesplit=datetimeload.split('|');
+
 
 environ['SDL_VIDEODRIVER'] = 'x11';
 pygame.display.init();
@@ -96,41 +74,28 @@ pygame.display.get_active();
 # pygame.display.toggle_fullscreen();
 pygame.font.init();
 print('init pygame font');
-toppyfont=pygame.font.Font(fonttopload, int(fonttopsplit[0]));
-toppyfont.set_bold(int(fonttopsplit[1]));
-toppyfont.set_italic(int(fonttopsplit[2]));
-toppyfont.set_underline(int(fonttopsplit[3]));
-print('loading top font file "'+fonttopload+'"');
-print('setting top font size '+fonttopsplit[0]);
-bottompyfont=pygame.font.Font(fontbottomload, int(fontbottomsplit[0]));
-bottompyfont.set_bold(int(fontbottomsplit[1]));
-bottompyfont.set_italic(int(fontbottomsplit[2]));
-bottompyfont.set_underline(int(fontbottomsplit[3]));
-print('loading bottom font file "'+fontbottomload+'"');
-print('setting bottom font size '+fontbottomsplit[0]);
 
+fcountall = 0;
 done = False;
 while not done:
    pyscreen.fill((int(bgcsplit[0]),int(bgcsplit[1]),int(bgcsplit[2])));
-   time1=toppyfont.render(strftime(dateformat), 1, (int(tfncsplit[0]),int(tfncsplit[1]),int(tfncsplit[2])));
-   time2=bottompyfont.render(strftime(timeformat), 1, (int(bfncsplit[0]),int(bfncsplit[1]),int(bfncsplit[2])));
-   if(int(displayconf)<=0):
-      pyscreen.blit(time1,(int(tfxysplit[0]),int(tfxysplit[1])));
-      pyscreen.blit(time2,(int(bfxysplit[0]),int(bfxysplit[1])));
-   if(int(displayconf)>=1):
-      a=pygame.sprite.Sprite();
-      a.image=time1;
-      a.rect=time1.get_rect();
-      a.rect.center=((int(tfxysplit[0]),int(tfxysplit[1])));
-      b = pygame.sprite.Sprite();
-      b.image=time2;
-      b.rect=time2.get_rect();
-      b.rect.center=((int(bfxysplit[0]),int(bfxysplit[1])));
-      group=pygame.sprite.RenderUpdates(a, b);
-      group.clear(pyscreen, pybackground);
-      rects = group.draw(pyscreen);
-      pygame.display.update(rects);
-   pygame.display.update();
+   fcount1 = 0;
+   while (fcount1 < len(fontloadsplit)):
+      fontsizeall=fontsizesplit[int(fcount1)].split(',');
+      pyfontall={};
+      pyfontall[int(fcount1)]=pygame.font.Font(fontloadsplit[int(fcount1)], int(fontsizeall[0]));
+      pyfontall[int(fcount1)].set_bold(int(fontsizeall[1]));
+      pyfontall[int(fcount1)].set_italic(int(fontsizeall[2]));
+      pyfontall[int(fcount1)].set_underline(int(fontsizeall[3]));
+      if(fcountall == 0):
+         print('loading top font file "'+fontloadsplit[int(fcount1)]+'"');
+         print('setting top font size '+fontsizeall[0]);
+      pycolorall=pycolorsplit[int(fcount1)].split(',');
+      fontxyall=fontxysplit[int(fcount1)].split(',');
+      pytimeall={};
+      pytimeall[int(fcount1)]=pyfontall[int(fcount1)].render(strftime(datetimesplit[int(fcount1)]), 1, (int(pycolorall[0]),int(pycolorall[1]),int(pycolorall[2])));
+      pyscreen.blit(pytimeall[int(fcount1)],(int(fontxyall[0]),int(fontxyall[1])));
+      fcount1 = fcount1 + 1;
    if(numfiles > 0):
       if(pygame.mixer.get_busy()==0):
          pysound=pygame.mixer.Sound(globfiles[int(countnum)]);
@@ -143,6 +108,9 @@ while not done:
             countnum = countnum + 1;
          if(countnum > maxarraynum):
             countnum = 0;
+   pygame.display.update();
+   fpsclock.tick(30);
+   fcountall = fcountall + 1;
 
    for event in pygame.event.get():
       if (event.type == KEYUP) or (event.type == KEYDOWN):
