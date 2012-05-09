@@ -65,6 +65,10 @@ fontxyload=configload[4].rstrip('\n');
 fontxysplit=fontxyload.split('|');
 datetimeload=configload[5].rstrip('\n');
 datetimesplit=datetimeload.split('|');
+imgbgload=configload[9].rstrip('\n');
+imgbgsplit=imgbgload.split('|');
+imgbgxyload=configload[10].rstrip('\n');
+imgbgxysplit=imgbgxyload.split('|');
 
 environ['SDL_VIDEODRIVER'] = 'x11';
 pygame.display.init();
@@ -96,6 +100,14 @@ fcountall = 0;
 done = False;
 while not done:
    pyscreen.fill((int(bgcsplit[0]),int(bgcsplit[1]),int(bgcsplit[2])));
+   fcount0 = 0;
+   while (fcount0 < len(imgbgsplit)):
+      if (os.path.exists(imgbgsplit[int(fcount0)]) == True):
+         pybgimgall={};
+         pybgimgall[int(fcount0)]=pygame.image.load(imgbgsplit[int(fcount0)]);
+         pybgimgxyall=imgbgxysplit[int(fcount0)].split(',');
+         pyscreen.blit(pybgimgall[int(fcount0)],(int(pybgimgxyall[0]),int(pybgimgxyall[1])));
+      fcount0 = fcount0 + 1;
    fcount1 = 0;
    while (fcount1 < len(fontloadsplit)):
       fontsizeall=fontsizesplit[int(fcount1)].split(',');
