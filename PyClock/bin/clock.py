@@ -16,7 +16,7 @@
 """
 
 import os, sys, time, locale, calendar, pygame, glob;
-from os import environ, system;
+from os import environ, system, mkdir;
 from sys import version, exit;
 from time import gmtime, strftime;
 from glob import glob;
@@ -40,6 +40,9 @@ if(os.path.exists('./config.txt') == True):
 if(os.path.exists('./config.txt') == False):
    shutil.copyfile('./default/config.txt', './config.txt');
    print('copying config file "./default/config.txt" to "./config.txt"');
+if(os.path.exists('./screenshots') == False):
+   mkdir('./screenshots');
+   print('making screenshot dir "./screenshots"');
 
 pyconfig=open('./config.txt', 'r');
 print('loading config file "./config.txt"');
@@ -62,7 +65,6 @@ fontxyload=configload[4].rstrip('\n');
 fontxysplit=fontxyload.split('|');
 datetimeload=configload[5].rstrip('\n');
 datetimesplit=datetimeload.split('|');
-
 
 environ['SDL_VIDEODRIVER'] = 'x11';
 pygame.display.init();
@@ -128,8 +130,17 @@ while not done:
    fcountall = fcountall + 1;
 
    for event in pygame.event.get():
-      if (event.type == KEYUP) or (event.type == KEYDOWN):
-         if (event.key == K_ESCAPE):
+      if (event.type == pygame.KEYDOWN):
+         if (event.key == pygame.K_LCTRL) or (event.key == pygame.K_RCTRL):
+            saveimgnum=0;
+            imgdone=False;
+            while not imgdone:
+               if (os.path.exists('./screenshots/screenshot_%i.png' % saveimgnum) == False):
+                  pygame.image.save(pyscreen, './screenshots/screenshot_%i.png' % saveimgnum);
+                  print('saving screenshot at file "./screenshots/screenshot_%i.png"' % saveimgnum);
+                  imgdone=True;
+               saveimgnum = saveimgnum + 1;
+         if (event.key == pygame.K_ESCAPE):
             done = True;
 
 if(numfiles > 0):
