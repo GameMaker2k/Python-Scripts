@@ -1,5 +1,20 @@
 #!/usr/bin/python2
 
+"""
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the Revised BSD License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    Revised BSD License for more details.
+
+    Copyright 2012 iDB Support - http://idb.berlios.de/
+    Copyright 2012 Game Maker 2k - http://gamemaker2k.org/
+
+    $FileInfo: clock.py - Last Update: 05/09/2012 Ver 1.0.0-1 - Author: cooldude2k $
+"""
+
 import os, sys, time, locale, calendar, pygame, glob;
 from os import environ, system;
 from sys import version, exit;
