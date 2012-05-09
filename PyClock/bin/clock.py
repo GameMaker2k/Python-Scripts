@@ -129,12 +129,12 @@ while not done:
       pyscreen.blit(pytimeall[int(fcount1)],(int(fontxyall[0]),int(fontxyall[1])));
       fcount1 = fcount1 + 1;
    if(numfiles > 0):
-      if(pygame.mixer.get_busy()==0):
-         pysound=pygame.mixer.Sound(globfiles[int(countnum)]);
+      if(pygame.mixer.music.get_busy()==0):
+         pysound=pygame.mixer.music.load(globfiles[int(countnum)]);
          print('loading sound file "'+globfiles[int(countnum)]+'"');
-         pysound.set_volume(float(pysndconfsplit[4]));
+         pygame.mixer.music.set_volume(float(pysndconfsplit[4]));
          print('setting sound volume %f' % float(pysndconfsplit[4]));
-         pychannel=pysound.play(1);
+         pygame.mixer.music.play(0);
          print('playing sound file "'+globfiles[int(countnum)]+'"');
          if(countnum < maxarraynum):
             countnum = countnum + 1;
@@ -159,7 +159,7 @@ while not done:
             done = True;
 
 if(numfiles > 0):
-      pysound.stop();
+      pygame.mixer.music.stop();
       print('stoping sound file "'+globfiles[int(countnum)]+'"');
       pygame.mixer.stop();
       print('setting sound mixer');
