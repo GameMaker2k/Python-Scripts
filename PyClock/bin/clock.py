@@ -120,8 +120,8 @@ while not done:
       pyfontall[int(fcount1)].set_italic(int(fontsizeall[2]));
       pyfontall[int(fcount1)].set_underline(int(fontsizeall[3]));
       if(fcountall == 0):
-         print('loading top font file "'+fontloadsplit[int(fcount1)]+'"');
-         print('setting top font size '+fontsizeall[0]);
+         print('loading font file "'+fontloadsplit[int(fcount1)]+'"');
+         print('setting font size '+fontsizeall[0]);
       pycolorall=pycolorsplit[int(fcount1)].split(',');
       fontxyall=fontxysplit[int(fcount1)].split(',');
       pytimeall={};
@@ -131,11 +131,11 @@ while not done:
    if(numfiles > 0):
       if(pygame.mixer.music.get_busy()==0):
          pysound=pygame.mixer.music.load(globfiles[int(countnum)]);
-         print('loading sound file "'+globfiles[int(countnum)]+'"');
+         print('loading music file "'+globfiles[int(countnum)]+'"');
          pygame.mixer.music.set_volume(float(pysndconfsplit[4]));
          print('setting sound volume %f' % float(pysndconfsplit[4]));
          pygame.mixer.music.play(0);
-         print('playing sound file "'+globfiles[int(countnum)]+'"');
+         print('playing music file "'+globfiles[int(countnum)]+'"');
          if(countnum < maxarraynum):
             countnum = countnum + 1;
          if(countnum > maxarraynum):
@@ -146,6 +146,11 @@ while not done:
 
    for event in pygame.event.get():
       if (event.type == pygame.KEYDOWN):
+         if (event.key == pygame.K_SPACE) and (numfiles > 0):
+            pygame.mixer.music.stop();
+            print('stoping sound file "'+globfiles[int(countnum)]+'"');
+            pygame.mixer.stop();
+            print('stoping all sounds');
          if (event.key == pygame.K_LCTRL) or (event.key == pygame.K_RCTRL):
             saveimgnum=0;
             imgdone=False;
@@ -155,14 +160,14 @@ while not done:
                   print('saving screenshot at file "./screenshots/screenshot_%i.png"' % saveimgnum);
                   imgdone=True;
                saveimgnum = saveimgnum + 1;
-         if (event.key == pygame.K_ESCAPE):
+         if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q):
             done = True;
 
 if(numfiles > 0):
       pygame.mixer.music.stop();
-      print('stoping sound file "'+globfiles[int(countnum)]+'"');
+      print('stoping music file "'+globfiles[int(countnum)]+'"');
       pygame.mixer.stop();
-      print('setting sound mixer');
+      print('stoping all sounds');
       pygame.mixer.quit();
       print('uninit pygame sound');
 
