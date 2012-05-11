@@ -77,7 +77,9 @@ numtzs=len(pytimezonesplit);
 currenttz=0;
 environ['SDL_VIDEODRIVER'] = 'x11';
 pygame.display.init();
-print('init pygame x11 display');
+print('init pygame '+pygame.display.get_driver()+' display');
+pyicon=pygame.image.load('./icon.png');
+pygame.display.set_icon(pyicon);
 
 globfiles=glob(pysoundfiles);
 numfiles=len(globfiles);
@@ -88,6 +90,7 @@ if(numfiles > 0):
    pygame.mixer.init(int(pysndconfsplit[0]),int(pysndconfsplit[1]),int(pysndconfsplit[2]),int(pysndconfsplit[3]));
    print('init pygame sound');
 
+print('supported display modes "%s"' % pygame.display.list_modes());
 pyscreen=pygame.display.set_mode((int(displaysizesplit[0]),int(displaysizesplit[1])),FULLSCREEN);
 print('setting display mode "'+displaysizesplit[0]+'x'+displaysizesplit[1]+'"');
 print('setting fullscreen mode');
@@ -168,7 +171,25 @@ while not done:
             print('stoping sound file "'+globfiles[int(countnum)]+'"');
             pygame.mixer.stop();
             print('stoping all sounds');
-         if (event.key == pygame.K_LCTRL) or (event.key == pygame.K_RCTRL) or (event.key == pygame.K_PRINT):
+         if (event.key == pygame.K_LALT) or (event.key == pygame.K_RALT):
+            saveimgnum=0;
+            imgdone=False;
+            while not imgdone:
+               if (os.path.exists('./screenshots/screenshot_%i.jpg' % saveimgnum) == False):
+                  pygame.image.save(pyscreen, './screenshots/screenshot_%i.jpg' % saveimgnum);
+                  print('saving screenshot at file "./screenshots/screenshot_%i.jpg"' % saveimgnum);
+                  imgdone=True;
+               saveimgnum = saveimgnum + 1;
+         if (event.key == pygame.K_PRINT):
+            saveimgnum=0;
+            imgdone=False;
+            while not imgdone:
+               if (os.path.exists('./screenshots/screenshot_%i.bmp' % saveimgnum) == False):
+                  pygame.image.save(pyscreen, './screenshots/screenshot_%i.bmp' % saveimgnum);
+                  print('saving screenshot at file "./screenshots/screenshot_%i.bmp"' % saveimgnum);
+                  imgdone=True;
+               saveimgnum = saveimgnum + 1;
+         if (event.key == pygame.K_LCTRL) or (event.key == pygame.K_RCTRL):
             saveimgnum=0;
             imgdone=False;
             while not imgdone:
@@ -177,6 +198,12 @@ while not done:
                   print('saving screenshot at file "./screenshots/screenshot_%i.png"' % saveimgnum);
                   imgdone=True;
                saveimgnum = saveimgnum + 1;
+         if (event.key == pygame.K_t) or (event.key == pygame.K_w):
+            pygame.display.toggle_fullscreen();
+            print('switching screen display mode');
+         if (event.key == pygame.K_i) or (event.key == pygame.K_m):
+            pygame.display.iconify();
+            print('minimizing window to system tray');
          if (event.key == pygame.K_t):
             if(currenttz < numtzs):
                currenttz = currenttz + 1;
