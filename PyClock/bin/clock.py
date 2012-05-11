@@ -12,7 +12,7 @@
     Copyright 2012 iDB Support - http://idb.berlios.de/
     Copyright 2012 Game Maker 2k - http://gamemaker2k.org/
 
-    $FileInfo: clock.py - Last Update: 05/09/2012 Ver 1.0.0-1 - Author: cooldude2k $
+    $FileInfo: clock.py - Last Update: 05/11/2012 Ver 1.0.0-10 - Author: cooldude2k $
 """
 
 import os, sys, time, locale, calendar, pygame, platform, glob;
@@ -85,7 +85,6 @@ globfiles=glob(pysoundfiles);
 numfiles=len(globfiles);
 countnum=0;
 if(numfiles > 0):
-   maxarraynum = numfiles - 1;
    print('number of sound files %i' % numfiles);
    pygame.mixer.init(int(pysndconfsplit[0]),int(pysndconfsplit[1]),int(pysndconfsplit[2]),int(pysndconfsplit[3]));
    print('init pygame sound');
@@ -96,8 +95,8 @@ print('setting display mode "'+displaysizesplit[0]+'x'+displaysizesplit[1]+'"');
 print('setting fullscreen mode');
 pybackground=pygame.Surface(pyscreen.get_size());
 pybackground.fill((int(bgcsplit[0]),int(bgcsplit[1]),int(bgcsplit[2])));
-pygame.display.set_caption('PyClock Test App');
-print('setting caption "PyClock Test App"');
+pygame.display.set_caption('PyClock');
+print('setting caption "PyClock"');
 pygame.mouse.set_visible(0);
 pygame.display.get_active();
 # pygame.display.toggle_fullscreen();
@@ -156,9 +155,9 @@ while not done:
          print('setting sound volume %f' % float(pysndconfsplit[4]));
          pygame.mixer.music.play(0);
          print('playing music file "'+globfiles[int(countnum)]+'"');
-         if(countnum < maxarraynum):
+         if(countnum < numfiles):
             countnum = countnum + 1;
-         if(countnum > maxarraynum):
+         if(countnum == numfiles):
             countnum = 0;
    pygame.display.update();
    fpsclock.tick(30);
