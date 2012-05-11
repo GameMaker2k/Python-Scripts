@@ -122,12 +122,12 @@ while not done:
       #os.environ['TZ'] = 'UTC';
       print('setting timezone to "'+pytimezonesplit[currenttz]+'"');
       os.putenv('TZ',pytimezonesplit[currenttz]);
-      time.tzset();
+      #time.tzset();
    if(pytimezonesplit[currenttz] == "System" and oldtz!=pytimezonesplit[currenttz]):
       oldtz=pytimezonesplit[currenttz];
       print('setting timezone to system time');
       os.unsetenv('TZ');
-      time.tzset();
+      #time.tzset();
    fcount1 = 0;
    while (fcount1 < len(fontloadsplit)):
       fontsizeall=fontsizesplit[int(fcount1)].split(',');
