@@ -203,11 +203,17 @@ while not done:
          if (event.key == pygame.K_i) or (event.key == pygame.K_m):
             pygame.display.iconify();
             print('minimizing window to system tray');
-         if (event.key == pygame.K_t):
+         if (event.key == pygame.K_LEFT):
+            if(currenttz == 0):
+               currenttz = numtzs;
+            if(currenttz > 0):
+               currenttz = currenttz - 1;
+         if (event.key == pygame.K_RIGHT):
             if(currenttz < numtzs):
                currenttz = currenttz + 1;
             if(currenttz == numtzs):
                currenttz = 0;
+
          if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q):
             done = True;
 
