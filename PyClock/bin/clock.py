@@ -15,7 +15,7 @@
     $FileInfo: clock.py - Last Update: 05/09/2012 Ver 1.0.0-1 - Author: cooldude2k $
 """
 
-import os, sys, time, locale, calendar, pygame, glob;
+import os, sys, time, locale, calendar, pygame, platform, glob;
 from os import environ, system, mkdir;
 from sys import version, exit;
 from time import gmtime, strftime;
@@ -26,6 +26,7 @@ import shutil;
 
 pythonver=version;
 print('python version "'+pythonver+'"');
+print('system: "%s"\nnode: "%s"\nrelease: "%s"\nversion: "%s"\nmachine: "%s"\nprocessor: "%s"' % platform.uname());
 init();
 print('init pygame');
 fpsclock=pygame.time.Clock();
@@ -69,7 +70,11 @@ imgbgload=configload[9].rstrip('\n');
 imgbgsplit=imgbgload.split('|');
 imgbgxyload=configload[10].rstrip('\n');
 imgbgxysplit=imgbgxyload.split('|');
+pytimezones=configload[11].rstrip('\n');
+pytimezonesplit=pytimezones.split('|');
 
+numtzs=len(pytimezonesplit);
+currenttz=0;
 environ['SDL_VIDEODRIVER'] = 'x11';
 pygame.display.init();
 print('init pygame x11 display');
@@ -96,6 +101,7 @@ pygame.display.get_active();
 pygame.font.init();
 print('init pygame font');
 
+oldtz="none";
 fcountall = 0;
 done = False;
 while not done:
@@ -111,6 +117,17 @@ while not done:
          pybgimgxyall=imgbgxysplit[int(fcount0)].split(',');
          pyscreen.blit(pybgimgall[int(fcount0)],(int(pybgimgxyall[0]),int(pybgimgxyall[1])));
       fcount0 = fcount0 + 1;
+   if(pytimezonesplit[currenttz] != "System" and oldtz!=pytimezonesplit[currenttz]):
+      oldtz=pytimezonesplit[currenttz];
+      #os.environ['TZ'] = 'UTC';
+      print('setting timezone to "'+pytimezonesplit[currenttz]+'"');
+      os.putenv('TZ',pytimezonesplit[currenttz]);
+      time.tzset();
+   if(pytimezonesplit[currenttz] == "System" and oldtz!=pytimezonesplit[currenttz]):
+      oldtz=pytimezonesplit[currenttz];
+      print('setting timezone to system time');
+      os.unsetenv('TZ');
+      time.tzset();
    fcount1 = 0;
    while (fcount1 < len(fontloadsplit)):
       fontsizeall=fontsizesplit[int(fcount1)].split(',');
@@ -151,7 +168,7 @@ while not done:
             print('stoping sound file "'+globfiles[int(countnum)]+'"');
             pygame.mixer.stop();
             print('stoping all sounds');
-         if (event.key == pygame.K_LCTRL) or (event.key == pygame.K_RCTRL):
+         if (event.key == pygame.K_LCTRL) or (event.key == pygame.K_RCTRL) or (event.key == pygame.K_PRINT):
             saveimgnum=0;
             imgdone=False;
             while not imgdone:
@@ -160,6 +177,11 @@ while not done:
                   print('saving screenshot at file "./screenshots/screenshot_%i.png"' % saveimgnum);
                   imgdone=True;
                saveimgnum = saveimgnum + 1;
+         if (event.key == pygame.K_t):
+            if(currenttz < numtzs):
+               currenttz = currenttz + 1;
+            if(currenttz == numtzs):
+               currenttz = 0;
          if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q):
             done = True;
 
