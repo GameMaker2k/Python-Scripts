@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/usr/bin/python "/mnt/utmp/upctest/bin/xv.py" "$@"
