@@ -27,4 +27,4 @@ while not done:
     done = True;
 pygame.display.quit();
 pygame.quit();
-exit();
+sys.exit(0);
