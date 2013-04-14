@@ -1,19 +1,30 @@
 #!/usr/bin/python
-import os, sys, pygame;
+import os, sys, pygame, argparse;
+
+parser = argparse.ArgumentParser();
+parser.add_argument("-name", help="title name");
+parser.add_argument("file", help="file name");
+getargs = parser.parse_args();
+
+if(getargs.file!=None):
+ pygame.display.quit();
+ pygame.quit();
+ sys.exit(0);
+if(not os.path.exists(getargs.file) or not os.path.isfile(getargs.file)):
+ pygame.display.quit();
+ pygame.quit();
+ sys.exit(0);
 
 pygame.display.init();
 pyicon=pygame.image.load("/mnt/utmp/upctest/old_icon.png");
 pygame.display.set_icon(pyicon);
-if(len(sys.argv)==2):
- ppmimg=pygame.image.load(sys.argv[1]);
-if(len(sys.argv)==4):
- ppmimg=pygame.image.load(sys.argv[3]);
+ppmimg=pygame.image.load(getargs.file);
 width, height = ppmimg.get_size();
 screen = pygame.display.set_mode((width, height));
-if(len(sys.argv)==2):
- pygame.display.set_caption("PyXV - "+str(os.path.basename(sys.argv[1])));
-if(len(sys.argv)==4):
- pygame.display.set_caption("PyXV - "+str(sys.argv[2]));
+if(getargs.name!=None):
+ pygame.display.set_caption("PyXV - "+str(getargs.name));
+if(getargs.name==None):
+ pygame.display.set_caption("PyXV - "+str(os.path.basename(getargs.file)));
 pygame.display.get_active();
 pygame.mouse.set_visible(0);
 
