@@ -33,4 +33,4 @@ while not done:
     done = True;
 pygame.display.quit();
 pygame.quit();
-sys.exit(0);
+os._exit(0);
