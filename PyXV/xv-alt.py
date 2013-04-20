@@ -1,4 +1,19 @@
 #!/usr/bin/python
+'''
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the Revised BSD License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    Revised BSD License for more details.
+
+    Copyright 2011-2013 Cool Dude 2k - http://idb.berlios.de/
+    Copyright 2011-2013 Game Maker 2k - http://intdb.sourceforge.net/
+    Copyright 2011-2013 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
+
+    $FileInfo: xv-alt.py - Last Update: 04/01/2013 Ver. 1.0.0  - Author: cooldude2k $
+'''
 import os, sys, pygame, argparse;
 
 parser = argparse.ArgumentParser();

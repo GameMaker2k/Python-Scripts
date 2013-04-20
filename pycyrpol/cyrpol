@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export OpenFile=$(zenity --title "Open" --file-selection --file-filter="Text (*.txt)|*.txt")
+$(pwd)/cyrpol.py "$OpenFile" /tmp/crypol.txt
+zenity --text-info --title "Polish Cyrillic" --filename=/tmp/crypol.txt
+rm /tmp/crypol.txt
