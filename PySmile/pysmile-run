@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ -z "${PYTHON}" ]; then
+	export PYTHON="$(/usr/bin/which python2)"
+fi
+if [ -z "${CC}" ]; then
+	export CC="$(/usr/bin/which gcc)"
+fi
+if [ "${2}" = "Python" ]; then
+	./pysmile-gen "${1}" "${2}" | ${PYTHON} -b -B -x -
+elif [ "${2}" = "Py" ]; then
+	./pysmile-gen "${1}" "${2}" | ${PYTHON} -b -B -x -
+elif [ "${2}" = "C" ]; then
+	export CTEMPFILE=$(${PYTHON} -b -B -c 'import tempfile; print tempfile.mktemp();');
+	CC="${CC}" ./pysmile-gcc "${1}" "${CTEMPFILE}"
+	${CTEMPFILE}
+	rm -v ${CTEMPFILE}
+else
+	./pysmile-gen "${1}" "${2}" | ${PYTHON} -b -B -x -
+fi

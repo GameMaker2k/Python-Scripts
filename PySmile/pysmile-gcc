@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ -z "${PYTHON}" ]; then
+	export PYTHON="$(/usr/bin/which python2)"
+fi
+if [ -z "${CC}" ]; then
+	export CC="$(/usr/bin/which gcc)"
+fi
+if [ -z "${2}" ]; then
+	./pysmile-gen "${1}" "C" | ${CC} `sdl-config --cflags` `sdl-config --libs` -lSDL_gfx -o "${1%.*}" -x c -
+else
+	mkdir -v -p $(dirname ${2})
+	./pysmile-gen "${1}" "C" | ${CC} `sdl-config --cflags` `sdl-config --libs` -lSDL_gfx -o "${2}" -x c -
+fi

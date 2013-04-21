@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ -z "${PYTHON}" ]; then
+	export PYTHON="$(/usr/bin/which python2)"
+fi
+if [ -z "${CC}" ]; then
+	export CC="$(/usr/bin/which gcc)"
+fi
+${PYTHON} -b -B -x "./pysmile.py" "$@"
