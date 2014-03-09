@@ -86,6 +86,9 @@ elif(x > y):
   if(z == 1):
    y = y + 1;
 tend = datetime.now();
-tcheck = print(tend - tstart);
+tcheck = tend - tstart;
+print(sys.argv[0]+" executed in "+str(tcheck)+" seconds");
+if(len(sys.argv) >= 5):
+ fp.write(sys.argv[0]+" executed in "+str(tcheck)+" seconds\n");
 if(len(sys.argv) >= 5):
  fp.close();
