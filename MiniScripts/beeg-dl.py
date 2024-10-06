@@ -16,33 +16,45 @@
     $FileInfo: beeg-dl.py - Last Update: 10/07/2013 Ver. 1.0.5 RC 6 - Author: cooldude2k $
 '''
 
-import re, os, sys, urllib, urllib2, cookielib, StringIO, gzip, time, datetime, argparse, urlparse;
+import re
+import os
+import sys
+import urllib
+import urllib2
+import cookielib
+import StringIO
+import gzip
+import time
+import datetime
+import argparse
+import urlparse
 
-parser = argparse.ArgumentParser();
-parser.add_argument("url", help="beeg url");
-getargs = parser.parse_args();
-mlessvid = getargs.url;
-mregex_text = re.escape("http://beeg.com/")+"([a-zA-Z0-9\/]+)";
+parser = argparse.ArgumentParser()
+parser.add_argument("url", help="beeg url")
+getargs = parser.parse_args()
+mlessvid = getargs.url
+mregex_text = re.escape("http://beeg.com/")+"([a-zA-Z0-9\/]+)"
 if(re.findall(mregex_text, mlessvid)):
- mlessvid = re.findall(mregex_text, mlessvid);
- mlessvid = mlessvid[0];
-fakeua = "Mozilla/5.0 (Windows NT 6.1; rv:24.0) Gecko/20100101 Firefox/24.0"";
-geturls_cj = cookielib.CookieJar();
-geturls_opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(geturls_cj));
-geturls_opener.addheaders = [("Referer", "http://beeg.com/section/long-videos/"), ("User-Agent", fakeua), ("Accept-Encoding", "gzip, deflate"), ("Accept-Language", "en-US,en-CA,en-GB,en-UK,en-AU,en-NZ,en-ZA,en;q=0.5"), ("Accept-Charset", "ISO-8859-1,ISO-8859-15,utf-8;q=0.7,*;q=0.7"), ("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"), ("Connection", "close")];
-geturls_text = geturls_opener.open("http://beeg.com/"+mlessvid);
-if(geturls_text.info().get("Content-Encoding")=="gzip" or geturls_text.info().get("Content-Encoding")=="deflate"):
- strbuf = StringIO.StringIO(geturls_text.read());
- gzstrbuf = gzip.GzipFile(fileobj=strbuf);
- out_text = gzstrbuf.read()[:];
-if(geturls_text.info().get("Content-Encoding")!="gzip" and geturls_text.info().get("Content-Encoding")!="deflate"):
- out_text = geturls_text.read()[:];
-regex_text = re.escape("'file': '")+"(.*)"+re.escape("',");
-post_text = re.findall(regex_text, out_text);
-if(post_text>0):
- mlesslink = post_text[0]+"?start=0";
- print(mlesslink);
- '''
+    mlessvid = re.findall(mregex_text, mlessvid)
+    mlessvid = mlessvid[0]
+fakeua = "Mozilla/5.0 (Windows NT 6.1; rv:24.0) Gecko/20100101 Firefox/24.0""
+geturls_cj = cookielib.CookieJar()
+geturls_opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(geturls_cj))
+geturls_opener.addheaders = [("Referer", "http://beeg.com/section/long-videos/"), ("User-Agent", fakeua), ("Accept-Encoding", "gzip, deflate"), ("Accept-Language", "en-US,en-CA,en-GB,en-UK,en-AU,en-NZ,en-ZA,en;q=0.5"),
+                             ("Accept-Charset", "ISO-8859-1,ISO-8859-15,utf-8;q=0.7,*;q=0.7"), ("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"), ("Connection", "close")]
+geturls_text = geturls_opener.open("http://beeg.com/"+mlessvid)
+if(geturls_text.info().get("Content-Encoding") == "gzip" or geturls_text.info().get("Content-Encoding") == "deflate"):
+    strbuf = StringIO.StringIO(geturls_text.read())
+    gzstrbuf = gzip.GzipFile(fileobj=strbuf)
+    out_text = gzstrbuf.read()[:]
+if(geturls_text.info().get("Content-Encoding") != "gzip" and geturls_text.info().get("Content-Encoding") != "deflate"):
+    out_text = geturls_text.read()[:]
+regex_text = re.escape("'file': '")+"(.*)"+re.escape("',")
+post_text = re.findall(regex_text, out_text)
+if(post_text > 0):
+    mlesslink = post_text[0]+"?start=0"
+    print(mlesslink)
+    '''
  getvidurls_cj = cookielib.CookieJar();
  getvidurls_opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(getvidurls_cj));
  getvidurls_opener.addheaders = [("Referer", "http://beeg.com/"+mlessvid), ("User-Agent", fakeua), ("Accept-Encoding", "gzip, deflate"), ("Accept-Language", "en-US,en-CA,en-GB,en-UK,en-AU,en-NZ,en-ZA,en;q=0.5"), ("Accept-Charset", "ISO-8859-1,ISO-8859-15,utf-8;q=0.7,*;q=0.7"), ("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"), ("Connection", "close")];
