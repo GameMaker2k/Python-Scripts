@@ -14,21 +14,22 @@
 
     $FileInfo: xv-alt.py - Last Update: 04/01/2013 Ver. 1.0.0  - Author: cooldude2k $
 '''
+import argparse
 import os
 import sys
+
 import pygame
-import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-name", help="title name")
 parser.add_argument("file", help="file name")
 getargs = parser.parse_args()
 
-if(getargs.file != None):
+if (getargs.file is not None):
     pygame.display.quit()
     pygame.quit()
     sys.exit(0)
-if(not os.path.exists(getargs.file) or not os.path.isfile(getargs.file)):
+if (not os.path.exists(getargs.file) or not os.path.isfile(getargs.file)):
     pygame.display.quit()
     pygame.quit()
     sys.exit(0)
@@ -39,10 +40,10 @@ pygame.display.set_icon(pyicon)
 ppmimg = pygame.image.load(getargs.file)
 width, height = ppmimg.get_size()
 screen = pygame.display.set_mode((width, height))
-if(getargs.name != None):
-    pygame.display.set_caption("PyXV - "+str(getargs.name))
-if(getargs.name == None):
-    pygame.display.set_caption("PyXV - "+str(os.path.basename(getargs.file)))
+if (getargs.name is not None):
+    pygame.display.set_caption("PyXV - " + str(getargs.name))
+if (getargs.name is None):
+    pygame.display.set_caption("PyXV - " + str(os.path.basename(getargs.file)))
 pygame.display.get_active()
 pygame.mouse.set_visible(0)
 

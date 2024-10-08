@@ -16,21 +16,22 @@
 '''
 import os
 import sys
+
 import pygame
 
 pygame.display.init()
 pyicon = pygame.image.load("/mnt/utmp/upctest/old_icon.png")
 pygame.display.set_icon(pyicon)
-if(len(sys.argv) == 2):
+if (len(sys.argv) == 2):
     ppmimg = pygame.image.load(sys.argv[1])
-if(len(sys.argv) == 4):
+if (len(sys.argv) == 4):
     ppmimg = pygame.image.load(sys.argv[3])
 width, height = ppmimg.get_size()
 screen = pygame.display.set_mode((width, height))
-if(len(sys.argv) == 2):
-    pygame.display.set_caption("PyXV - "+str(os.path.basename(sys.argv[1])))
-if(len(sys.argv) == 4):
-    pygame.display.set_caption("PyXV - "+str(sys.argv[2]))
+if (len(sys.argv) == 2):
+    pygame.display.set_caption("PyXV - " + str(os.path.basename(sys.argv[1])))
+if (len(sys.argv) == 4):
+    pygame.display.set_caption("PyXV - " + str(sys.argv[2]))
 pygame.display.get_active()
 pygame.mouse.set_visible(0)
 

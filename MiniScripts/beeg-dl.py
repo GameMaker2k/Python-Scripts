@@ -16,25 +16,26 @@
     $FileInfo: beeg-dl.py - Last Update: 10/07/2013 Ver. 1.0.5 RC 6 - Author: cooldude2k $
 '''
 
-import re
+import argparse
+import datetime
+import gzip
 import os
+import re
 import sys
+import time
 import urllib
-import urllib2
+
 import cookielib
 import StringIO
-import gzip
-import time
-import datetime
-import argparse
+import urllib2
 import urlparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("url", help="beeg url")
 getargs = parser.parse_args()
 mlessvid = getargs.url
-mregex_text = re.escape("http://beeg.com/")+"([a-zA-Z0-9\/]+)"
-if(re.findall(mregex_text, mlessvid)):
+mregex_text = re.escape("http://beeg.com/") + "([a-zA-Z0-9\\/]+)"
+if (re.findall(mregex_text, mlessvid)):
     mlessvid = re.findall(mregex_text, mlessvid)
     mlessvid = mlessvid[0]
 fakeua = "Mozilla/5.0 (Windows NT 6.1; rv:24.0) Gecko/20100101 Firefox/24.0""
