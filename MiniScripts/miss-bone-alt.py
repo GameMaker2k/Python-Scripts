@@ -69,7 +69,8 @@ while (i < il):
             "gzip" and geturls_text.info().get("Content-Encoding") != "deflate"):
         out_text = geturls_text.read()[:]
     regex_text = re.escape("<img alt='Miss Bone Emoticons ") + \
-        "([0-9]+)" + re.escape("' src=\"") + "(.*?)" + re.escape("\" border=0>")
+        "([0-9]+)" + re.escape("' src=\"") + \
+        "(.*?)" + re.escape("\" border=0>")
     post_text = re.findall(regex_text, out_text)
     isub = 0
     ilsub = len(post_text)

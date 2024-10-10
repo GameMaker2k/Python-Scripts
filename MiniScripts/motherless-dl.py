@@ -489,7 +489,8 @@ def motherless_dl(mtlessgetargs=vars(getargs)):
                         re.escape("http://www.motherless.com"), "", out_text)
                     if (re.match("^V", mlessvidid[1])):
                         out_text = re.sub(
-                            re.escape("class=\"img-container\" target=\"_self\""),
+                            re.escape(
+                                "class=\"img-container\" target=\"_self\""),
                             "title=\"motherless link\"",
                             out_text)
                         out_text = re.sub(
@@ -571,7 +572,8 @@ def motherless_dl(mtlessgetargs=vars(getargs)):
                         "__mediatype = '") + "(.*)" + re.escape("',")
                     mediatype_text = re.findall(regex_mediatype, subout_text)
                     regex_altimg = re.escape("<link rel=\"image_src\" type=\"image/") + \
-                        "(.*)" + re.escape("\" href=\"") + "(.*)" + re.escape("\">")
+                        "(.*)" + re.escape("\" href=\"") + \
+                        "(.*)" + re.escape("\">")
                     altimg_text = re.findall(regex_altimg, subout_text)
                     mlessaltimg = altimg_text[0][1]
                     regex_usrname = re.escape("<a href=\"/u/") + "([\\w]+)" + re.escape(
