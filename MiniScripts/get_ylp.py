@@ -16,18 +16,17 @@
     $FileInfo: get_ylp.py - Last Update: 10/07/2013 Ver. 1.0.5 RC 6 - Author: cooldude2k $
 '''
 
-import argparse
-import datetime
-import gzip
-import os
 import re
+import os
 import sys
-import time
 import urllib
-
+import urllib2
 import cookielib
 import StringIO
-import urllib2
+import gzip
+import time
+import datetime
+import argparse
 import urlparse
 
 fakeua = "Mozilla/5.0 (Windows NT 6.1; rv:24.0) Gecko/20100101 Firefox/24.0""
